@@ -9,10 +9,10 @@
 
 | Criterio | Archivo |
 |---|---|
-| Corrección de los filtros nuevos |  |
-| Paralelización con OpenMP |  |
-| Instrumentación y análisis |  |
-| Separación de componentes y despliegue local |  |
-| Despliegue en la nube con Kubernetes |  |
-| Automatización y calidad de código |  |
-| Informe y conclusiones |  |
+| Corrección de los filtros nuevos | [02-motor.md](./02-motor.md) |
+| Paralelización con OpenMP | [02-motor.md](./02-motor.md) |
+| Instrumentación y análisis | [02-motor.md](./02-motor.md) |
+| Separación de componentes y despliegue local | [01-arquitectura.md](./01-arquitectura.md) y [03-despliegue.md](./03-despliegue.md) |
+| Despliegue en la nube con Kubernetes | [03-despliegue.md](./03-despliegue.md) |
+| Automatización y calidad de código | [03-despliegue.md](./03-despliegue.md) |
+| Informe y conclusiones | [README.md](./README.md) y [04-conclusiones.md](./04-conclusiones.md) |
