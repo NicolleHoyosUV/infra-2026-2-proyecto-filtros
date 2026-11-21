@@ -28,4 +28,10 @@ Imagen sobel_paralelo(const Imagen& e);
 Imagen otsu_secuencial(const Imagen& e);
 Imagen otsu_paralelo(const Imagen& e);
 
+// Variantes experimentales para instrumentación y comparación en el informe:
+// 1) Gaussiano directo 2D (5x5 = 25 multiplicaciones por píxel)
+Imagen gaussiano_directo(const Imagen& e);
+// 2) Otsu con histograma compartido protegido con #pragma omp atomic
+Imagen otsu_compartido(const Imagen& e);
+
 #endif

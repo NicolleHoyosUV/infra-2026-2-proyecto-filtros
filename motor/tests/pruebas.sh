@@ -42,11 +42,30 @@ revisar "caja sobre un canal escribe P5" bash -c \
 
 echo "Paralelo contra secuencial, imagen de 512x512:"
 ./generar "$trabajo/grande.ppm" 512 512 > /dev/null
-for filtro in gris caja; do
-    ./motor "$filtro" "$trabajo/grande.ppm" "$trabajo/$filtro-par" 
-    ./motor "$filtro" "$trabajo/grande.ppm" "$trabajo/$filtro-sec" --secuencial
-    revisar "$filtro idéntico con uno y con varios hilos" \
-        ./comparar "$trabajo/$filtro-par" "$trabajo/$filtro-sec"
+for filtro in gris caja gaussiano; do
+    for hilos in 1 8; do
+        OMP_NUM_THREADS=$hilos ./motor "$filtro" "$trabajo/grande.ppm" "$trabajo/$filtro-par-$hilos"
+        ./motor "$filtro" "$trabajo/grande.ppm" "$trabajo/$filtro-sec" --secuencial
+        revisar "$filtro idéntico con $hilos hilo(s)" \
+            ./comparar "$trabajo/$filtro-par-$hilos" "$trabajo/$filtro-sec"
+    done
+done
+
+./motor gris "$trabajo/grande.ppm" "$trabajo/grande_gris.pgm"
+for filtro in sobel otsu; do
+    for hilos in 1 8; do
+        OMP_NUM_THREADS=$hilos ./motor "$filtro" "$trabajo/grande_gris.pgm" "$trabajo/$filtro-par-$hilos"
+        ./motor "$filtro" "$trabajo/grande_gris.pgm" "$trabajo/$filtro-sec" --secuencial
+        revisar "$filtro idéntico con $hilos hilo(s)" \
+            ./comparar "$trabajo/$filtro-par-$hilos" "$trabajo/$filtro-sec"
+    done
+done
+
+for hilos in 1 8; do
+    OMP_NUM_THREADS=$hilos ./motor "gris,gaussiano,sobel,otsu" "$trabajo/grande.ppm" "$trabajo/cadena-par-$hilos"
+    ./motor "gris,gaussiano,sobel,otsu" "$trabajo/grande.ppm" "$trabajo/cadena-sec" --secuencial
+    revisar "cadena completa idéntica con $hilos hilo(s)" \
+        ./comparar "$trabajo/cadena-par-$hilos" "$trabajo/cadena-sec"
 done
 
 echo "Filtro desconocido:"
